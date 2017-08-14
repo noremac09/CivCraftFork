@@ -1680,4 +1680,29 @@ public abstract class Buildable extends SQLObject {
 		this.enabled = enabled;
 	}
 	
+	public void onDestroyFancy() {
+        this.hitpoints = 0;
+        this.fancyDestroyStructure();
+        this.save();
+    }
+	
+	public void fancyDestroyStructure() {
+        
+        class SyncTask implements Runnable {
+            
+            @Override
+            public void run() {
+                for (BlockCoord coord : structureBlocks.keySet()) {
+                    
+                    if (ItemManager.getId(coord.getBlock()) != CivData.AIR) {
+                        ItemManager.setTypeId(coord.getBlock(), CivData.AIR);
+                        ItemManager.setData(coord.getBlock(), 0, true);
+                    }
+                }
+            }
+        }
+        
+        TaskMaster.syncTask(new SyncTask());
+    }
+	
 }

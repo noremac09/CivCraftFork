@@ -1852,8 +1852,9 @@ public class Town extends SQLObject {
 		
 		try {
 			struct.onDemolish();
-			this.removeStructure(struct);
-			struct.deleteSkipUndo();
+            this.removeStructure(struct);
+            struct.onDestroyFancy();
+            struct.deleteSkipUndo();
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new CivException(CivSettings.localize.localizedString("internalDatabaseException"));
@@ -3354,7 +3355,4 @@ public class Town extends SQLObject {
 	public Collection<Buildable> getDisabledBuildables() {
 		return this.disabledBuildables.values();
 	}
-
-
-
 }
