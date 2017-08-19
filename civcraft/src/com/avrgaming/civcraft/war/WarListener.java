@@ -103,14 +103,18 @@ public class WarListener implements Listener {
     public void onPlayerDamage(EntityDamageByEntityEvent event) {
         if (War.isWarTime()) {
             Resident resident;
-            
-            resident = (event.getDamager() instanceof Player ? CivGlobal.getResident((Player) event.getEntity()) : null);
-            
+    
+            if (!(event.getDamager() instanceof Player))
+                return;
+    
+    
+            resident = (event.getDamager() instanceof Player ? CivGlobal.getResident((Player) event.getDamager()) : null);
+
             if (resident == null) {
                 event.setCancelled(true);
                 return;
             }
-            
+
             if (resident.isProtected())
                 event.setCancelled(true);
         }
