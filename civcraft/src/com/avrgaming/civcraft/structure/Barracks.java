@@ -99,6 +99,7 @@ public class Barracks extends Structure {
 				}
 			}
 
+			// not working =(
 			coinCost *= previousSettlers;
 		}
 		
